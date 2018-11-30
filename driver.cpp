@@ -25,9 +25,10 @@ int getdir (string dir, vector<string> &files)
     return 0;
 }
 
-int main()
+int main(int argc, char* argv[])
 {
-    string dir = string("sm_doc_set");
+    cout << argv[1] << endl ; 
+    string dir = string(argv[1]);
     vector<string> files = vector<string>();
 
     getdir(dir,files);

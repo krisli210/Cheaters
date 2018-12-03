@@ -37,7 +37,7 @@ class HASH_TABLE {
 		int getTableSize() const;
 
 	private:
-		int tableSize;
+		static const int tableSize = TABLESIZE;
 
 		vector<ItemType> items[TABLESIZE];
 
@@ -49,8 +49,6 @@ class HASH_TABLE {
 
 template<class ItemType, int TABLESIZE>
 HASH_TABLE<ItemType, TABLESIZE>::HASH_TABLE(){
-
-	tableSize = TABLESIZE;
 
 }
 

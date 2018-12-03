@@ -3,6 +3,7 @@
 #include <vector>
 #include <iostream>
 #include <fstream>
+#include <sstream>
 
 using namespace std;
 
@@ -22,7 +23,7 @@ int main(int argc, char*  argv[]) {
 		sequence.push_back(temp);
 
 		if(sequence.size() == n) {
-			cout << sequence[0] << " " << sequence[1] << " " << sequence[2] << " " << sequence[3] << " " << sequence[4] << " " << sequence[5] <<  endl;
+			cout << sequence[0] << " " << sequence[1] << " " << sequence[2] << " " << sequence[3] << " " << sequence[4] << " " << sequence[5] <<  "\n";
 			sequence.erase(sequence.begin());
 		}
 	}

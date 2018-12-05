@@ -67,35 +67,66 @@ int HASH_TABLE<ItemType, TABLESIZE>::getKey(const string &value) const{
 template<class ItemType, int TABLESIZE>
 void HASH_TABLE<ItemType, TABLESIZE>::add(int key, const ItemType &item){
 
-	//Code to add to table here
+	if((key >= 0) && (key < tableSize))
+		items[key].push_back(item);
 
 }
 
 template<class ItemType, int TABLESIZE>
 bool HASH_TABLE<ItemType, TABLESIZE>::inTable(int key, const ItemType &item) const{
 
-	//Code to check for in table here
+	bool result = false;
+
+	if((key >= 0) && (key < tableSize)) {		
+		int size = items[key].size();
+		for(int i = 0; (i < size) && (!result); i++) {
+			if(items[key].at(i) == item)
+				result = true;
+		}
+	}
+
+	return result;
 
 }
 
 template<class ItemType, int TABLESIZE>
 vector<ItemType> HASH_TABLE<ItemType, TABLESIZE>::getItemsAtKey(int key) const{
 
-	//Code to return items at key here
+	vector<ItemType> result;
+
+	if((key >= 0) && (key < tableSize))
+		result = items[key];
+
+	return result;
 
 }
 
 template<class ItemType, int TABLESIZE>
 int HASH_TABLE<ItemType, TABLESIZE>::numItemsAtKey(int key) const{
 
-	//Code to return num items at key here
+	int result = 0;
+
+	if((key >= 0 ) && (key < tableSize))
+		result = items[key].size();
+
+	return result;
 
 }
 
 template<class ItemType, int TABLESIZE>
 void HASH_TABLE<ItemType, TABLESIZE>::remove(int key, const ItemType &item){
 
-	//Code to remove item from table here
+	bool found = false;
+
+	if((key >= 0) && (key < tableSize)) {		
+		int size = items[key].size();
+		for(int i = 0; (i < size) && (!found); i++) {
+			if(items[key].at(i) == item){
+				found = true;
+				items[key].erase(items[key].begin() + i);
+			}
+		}
+	}
 
 }
 

@@ -31,11 +31,17 @@ int getdir (string dir, vector<string> &files)
 string vecToString(vector<string> &vec)
 {
    string temp ;
+   string::iterator it; 
    string result = "" ;
    for (int i = 0 ; i < vec.size() ; i++) {
 	temp = vec[i] ;
-	temp[0] = tolower(temp[0]) ; // lowercase first letter
-	result += temp ;  	
+	for (int j = 0 ; j < temp.length() ; j++) {
+	    temp[j] = tolower(temp[j]) ;
+	    if(ispunct(temp[j]))
+		temp.erase(j) ;   	
+	}
+	result += temp ;
+	  	
     }
    return result ; 
 }
@@ -70,9 +76,6 @@ int main(int argc, char* argv[])
 		    squeezed = vecToString(sequence) ;
 		    cout << squeezed << endl ; 
 		    //here we hash the vector
-		  //  for (int i = 0 ; i < sequence.size() ; i++) 
-		//	cout << sequence[i] << " " ;
-		   // cout << endl ;
 
 		    sequence.erase(sequence.begin());
 		}
@@ -83,6 +86,5 @@ int main(int argc, char* argv[])
 	//return 0 ;
 	}
     }
-     
     return 0;
 }

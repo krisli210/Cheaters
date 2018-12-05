@@ -28,6 +28,18 @@ int getdir (string dir, vector<string> &files)
     return 0;
 }
 
+string vecToString(vector<string> &vec)
+{
+   string temp ;
+   string result = "" ;
+   for (int i = 0 ; i < vec.size() ; i++) {
+	temp = vec[i] ;
+	temp[0] = tolower(temp[0]) ; // lowercase first letter
+	result += temp ;  	
+    }
+   return result ; 
+}
+
 int main(int argc, char* argv[])
 {
     cout << argv[1] << endl ; 
@@ -38,6 +50,7 @@ int main(int argc, char* argv[])
     
     vector<string> sequence;
     string temp ; 
+    string squeezed ;
 
     int chnk_s = atoi(argv[2]); // Chunk size 
     cout << "Chunk Size " << chnk_s << endl;
@@ -54,15 +67,18 @@ int main(int argc, char* argv[])
 		sequence.push_back(temp);
 
 		if (sequence.size() == chnk_s) {
+		    squeezed = vecToString(sequence) ;
+		    cout << squeezed << endl ; 
 		    //here we hash the vector
-		    for (int i = 0 ; i < sequence.size() ; i++) 
-			cout << sequence[i] << " " ;
-		    cout << endl ;
+		  //  for (int i = 0 ; i < sequence.size() ; i++) 
+		//	cout << sequence[i] << " " ;
+		   // cout << endl ;
 
 		    sequence.erase(sequence.begin());
 		}
 	    }
-	myfile.close();	    
+	sequence.clear() ;
+	myfile.close(); 	    
 	//cout << "get here" << endl;
 	//return 0 ;
 	}

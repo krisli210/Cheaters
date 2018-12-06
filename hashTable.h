@@ -9,6 +9,8 @@
 
 #include <cstdlib>
 #include <vector>
+#include <string>
+#include <math.h>
 
 using namespace std;
 
@@ -61,7 +63,13 @@ template<class ItemType, int TABLESIZE>
 int HASH_TABLE<ItemType, TABLESIZE>::getKey(const string &value) const{
 
 	//Hash Algorithm here
+    int key = 0 ; 
+    for (int i = 0 ; i < value.length() ; i++) {
 
+	key += value[value.length()-i-1]*pow(13,i);
+
+    }
+    return key ; 
 }
 
 template<class ItemType, int TABLESIZE>

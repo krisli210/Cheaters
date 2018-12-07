@@ -8,11 +8,30 @@ using namespace std;
 
 int main() {
 
-	HASH_TABLE<int, 100> ht;
+	const int ts = 393241;
+	HASH_TABLE<int, ts> ht;
 
 	cout << ht.getTableSize() << endl;
 
-	int keys[] = {0, 1, 47, 99, 100, -1, 1, 3};  //8 Keys
+	string key1 = "hereisakey" ; 
+	string key2 = "hereisalsoakey";
+	string key3 = "notlikeothers";
+cout << ht.getKey(key1) << endl ;
+cout << ht.getKey(key2) << endl ;
+cout << ht.getKey(key3) << endl ;	
+	ht.add(ht.getKey(key1), 42) ; 
+	ht.add(ht.getKey(key2), 50) ;
+	ht.add(ht.getKey(key3), 3) ;  
+
+	vector<int> results = ht.getItemsAtKey(ht.getKey(key1)) ; 
+		cout << "Added and retrieved: " << results[0] << endl ; 
+	results = ht.getItemsAtKey(ht.getKey(key2)) ; 
+		cout << "Added and retrieved: " << results[0] << endl ; 
+	results = ht.getItemsAtKey(ht.getKey(key3));
+		cout << "Added and retrieved: " << results[0] << endl ; 
+
+
+/*	int keys[] = {0, 1, 47, 99, 100, -1, 1, 3};  //8 Keys
 	int values[] = {42, 42, 42, 42, 42, 42, 56}; //7 Values
 
 	for(int i = 0; i < 7; i++){
@@ -67,7 +86,7 @@ int main() {
 	}
 
 	ht.remove(1, 32);
-
+*/
 	return 0;
 
 }

@@ -61,23 +61,24 @@ HASH_TABLE<ItemType, TABLESIZE>::~HASH_TABLE(){
 
 template<class ItemType, int TABLESIZE>
 int HASH_TABLE<ItemType, TABLESIZE>::getKey(const string &value) const{
+		
+	int key  = 0 ;
+	
+	for (int i = 0 ; i < value.length() ; i++) {
+	    
+	    key += value[value.length()-i-1] * 71 ; 
 
-	//Hash Algorithm here
-    int key = 0 ; 
-    for (int i = 0 ; i < value.length() ; i++) {
+	} 
+	return key%tableSize ;
 
-	key += value[value.length()-i-1]*pow(13,i);
-
-    }
-    return key ; 
 }
 
 template<class ItemType, int TABLESIZE>
 void HASH_TABLE<ItemType, TABLESIZE>::add(int key, const ItemType &item){
 
 	if((key >= 0) && (key < tableSize))
-		items[key].push_back(item);
-
+	    items[key].push_back(item);
+	
 }
 
 template<class ItemType, int TABLESIZE>

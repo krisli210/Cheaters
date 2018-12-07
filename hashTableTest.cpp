@@ -21,7 +21,8 @@ cout << ht.getKey(key2) << endl ;
 cout << ht.getKey(key3) << endl ;	
 	ht.add(ht.getKey(key1), 42) ; 
 	ht.add(ht.getKey(key2), 50) ;
-	ht.add(ht.getKey(key3), 3) ;  
+	ht.add(ht.getKey(key3), 3) ; 
+cout << ht.getKey(key3) << endl ; 
 
 	vector<int> results = ht.getItemsAtKey(ht.getKey(key1)) ; 
 		cout << "Added and retrieved: " << results[0] << endl ; 

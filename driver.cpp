@@ -62,7 +62,7 @@ int main(int argc, char* argv[])
     string squeezed ;
 
 
-    const int ts = 196613 ; 
+    const int ts = 500009 ; 
     HASH_TABLE<int, ts> ht ;
     vector<int> collisions ;
 
@@ -100,7 +100,7 @@ int main(int argc, char* argv[])
 	myfile.close(); 	    
 	}
     }
-    cout << collisions.size() << endl;
+cout << collisions.size() << endl ;
 
     return 0;
 }

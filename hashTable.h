@@ -62,11 +62,12 @@ HASH_TABLE<ItemType, TABLESIZE>::~HASH_TABLE(){
 template<class ItemType, int TABLESIZE>
 int HASH_TABLE<ItemType, TABLESIZE>::getKey(const string &value) const{
 		
-	int key  = 0 ;
+	long unsigned int key  = 0 ;
 	
-	for (int i = 0 ; i < value.length() ; i++) {
+	int numTimes = (value.length() / 3);
+	for (int i = 0 ; i < numTimes ; i++) {
 	    
-	    key += value[value.length()-i-1] * 71 ; 
+	    key += value[value.length()-(i*3)-1] * pow(37, i) ; 
 
 	} 
 	return key%tableSize ;

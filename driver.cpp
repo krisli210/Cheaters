@@ -9,6 +9,8 @@
 #include <fstream>
 #include <stdlib.h>
 #include <stdio.h>
+#include "hashTable.h"
+
 using namespace std;
 
 /*function... might want it in some class?*/
@@ -30,15 +32,14 @@ int getdir (string dir, vector<string> &files)
 
 string vecToString(vector<string> &vec)
 {
-   string temp ;
-   string::iterator it; 
+   string temp ; 
    string result = "" ;
    for (int i = 0 ; i < vec.size() ; i++) {
 	temp = vec[i] ;
 	for (int j = 0 ; j < temp.length() ; j++) {
 	    temp[j] = tolower(temp[j]) ;
 	    if(ispunct(temp[j]))
-		temp.erase(j) ;   	
+		temp.erase(j,1) ;   	
 	}
 	result += temp ;
 	  	
@@ -55,26 +56,39 @@ int main(int argc, char* argv[])
     getdir(dir,files);
     
     vector<string> sequence;
-    string temp ; 
+    string temp ;
+
+    int key ; 
     string squeezed ;
 
+
+    const int ts = 196613 ; 
+    HASH_TABLE<int, ts> ht ;
+    bool collisions[ts] = {false} ;  
+
     int chnk_s = atoi(argv[2]); // Chunk size 
-    cout << "Chunk Size " << chnk_s << endl;
+    
 
     for (unsigned int i = 0;i < files.size();i++) {
-        cout << i << files[i] << endl;
+        //cout << i << files[i] << endl;
 	ifstream myfile;
 
 	if (i > 1) {//skip . and .. 
             myfile.open((dir + "/" + files[i]).c_str());
+
 	    if(!myfile.is_open())
 		cout << "file not opened" << endl;
+
 	    while(myfile >> temp) {
 		sequence.push_back(temp);
-
 		if (sequence.size() == chnk_s) {
 		    squeezed = vecToString(sequence) ;
-		    cout << squeezed << endl ; 
+		    //cout << squeezed << endl ;
+		    key = ht.getKey(squeezed);
+		    //cout << key << endl ;
+		    ht.add(key,i) ; //add index of file to vector
+		    if ((!collisions[key]) && (ht.getItemsAtKey(key).size() == 2)) //setting boolean variable if there are 2 things
+			collisions[key] = true ;    
 		    //here we hash the vector
 
 		    sequence.erase(sequence.begin());
@@ -82,8 +96,6 @@ int main(int argc, char* argv[])
 	    }
 	sequence.clear() ;
 	myfile.close(); 	    
-	//cout << "get here" << endl;
-	//return 0 ;
 	}
     }
     return 0;

@@ -47,6 +47,7 @@ string vecToString(vector<string> &vec)
    return result ; 
 }
 
+
 int main(int argc, char* argv[])
 {
     cout << argv[1] << endl ; 
@@ -67,7 +68,7 @@ int main(int argc, char* argv[])
     vector<int> collisions ;
 
     int chnk_s = atoi(argv[2]); // Chunk size 
-    
+    int threshold = atoi(argv[3]) ; // amount of words for a match   
 
     for (unsigned int i = 0;i < files.size();i++) {
         //cout << i << files[i] << endl;
@@ -100,7 +101,49 @@ int main(int argc, char* argv[])
 	myfile.close(); 	    
 	}
     }
-cout << collisions.size() << endl ;
+//cout << collisions.size() << endl ; 
 
+    //int matches[files.size()][files.size()] ;
+    int** matches = new int*[files.size()] ;
+    for (int i = 0 ; i < files.size() ; ++i) //dynamically allocate memory  
+	matches[i] = new int[files.size()] ; 
+    for (int i = 0 ; i < files.size(); i++) { //initialize 2d array to 0
+	for (int j = 0 ; j < files.size(); j++) {
+	    matches[i][j] = 0 ; 
+        }
+    }	 
+    vector<int> comparisons ; 
+    for (int i = 0 ; i < collisions.size() ; i++) { //outer loop for each key
+	comparisons = ht.getItemsAtKey(collisions[i]) ;
+	     
+	for (int j = 0 ; j < comparisons.size() ; j++) {//nested for loop for finding pairs
+	    int compare = comparisons[j] ;
+	    for (int k = j+1 ; k < comparisons.size() ; k++) {
+	    int against = comparisons[k] ; 
+		if (compare != against) { // comparing file indeces to see if there's a match
+		    if (compare < against) //we want an upper triangular
+			matches[compare][against]++ ;
+		    else
+			matches[against][compare]++ ;
+		} 
+	    }
+	    
+	}	
+
+    } 
+    int matchAmount = 0 ; 
+    for (int i = 0 ; i < files.size(); i++) { //outputs matches
+	
+	for (int j = 0 ; j < files.size() ; j++) {
+	    if (matches[i][j] > threshold) {
+		cout << matches[i][j] << ": " << files[i] << ", " << files[j] << endl ;
+		matchAmount++ ; 
+	    }
+	}
+    }	
+    cout << "Amount of matches: " << matchAmount << endl;
+    for (int i = 0 ; i < files.size() ; ++i) //frees memory  
+	delete [] matches[i] ;
+    delete matches;  
     return 0;
 }

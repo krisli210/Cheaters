@@ -64,7 +64,7 @@ int main(int argc, char* argv[])
 
     const int ts = 196613 ; 
     HASH_TABLE<int, ts> ht ;
-    bool collisions[ts] = {false} ;  
+    vector<int> collisions ;
 
     int chnk_s = atoi(argv[2]); // Chunk size 
     
@@ -86,9 +86,11 @@ int main(int argc, char* argv[])
 		    //cout << squeezed << endl ;
 		    key = ht.getKey(squeezed);
 		    //cout << key << endl ;
-		    ht.add(key,i) ; //add index of file to vector
-		    if ((!collisions[key]) && (ht.getItemsAtKey(key).size() == 2)) //setting boolean variable if there are 2 things
-			collisions[key] = true ;    
+		    if(!ht.inTable(key,i)) {
+		        ht.add(key,i) ; //add index of file to vector
+		        if (ht.numItemsAtKey(key) == 2) //setting boolean variable if there are 2 things
+		   	    collisions.push_back(key) ;
+                    }    
 		    //here we hash the vector
 
 		    sequence.erase(sequence.begin());
@@ -98,5 +100,7 @@ int main(int argc, char* argv[])
 	myfile.close(); 	    
 	}
     }
+    cout << collisions.size() << endl;
+
     return 0;
 }

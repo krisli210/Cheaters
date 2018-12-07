@@ -9,11 +9,23 @@
 #include <fstream>
 #include <stdlib.h>
 #include <stdio.h>
+#include <algorithm>
 #include "hashTable.h"
 
 using namespace std;
 
 /*function... might want it in some class?*/
+
+typedef struct CaughtDoc {
+    int matches;
+    int doc1;
+    int doc2;
+} CaughtDoc;
+    
+bool compareCaughtDocs(const CaughtDoc &a, const CaughtDoc &b) {
+    return a.matches > b.matches;
+}
+
 int getdir (string dir, vector<string> &files)
 {
     DIR *dp;
@@ -131,17 +143,22 @@ int main(int argc, char* argv[])
 	}	
 
     } 
-    int matchAmount = 0 ; 
+    vector<CaughtDoc> allMatches; 
     for (int i = 0 ; i < files.size(); i++) { //outputs matches
 	
 	for (int j = 0 ; j < files.size() ; j++) {
 	    if (matches[i][j] > threshold) {
-		cout << matches[i][j] << ": " << files[i] << ", " << files[j] << endl ;
-		matchAmount++ ; 
+                CaughtDoc temp = {matches[i][j], i, j};
+		allMatches.push_back(temp);
 	    }
 	}
+    }
+    sort(allMatches.begin(), allMatches.end(), compareCaughtDocs);
+    for(int i = 0; i < allMatches.size(); i++){
+        cout << allMatches.at(i).matches << ": " << files[allMatches.at(i).doc1] << ", " << files[allMatches.at(i).doc2] << endl;
     }	
-    cout << "Amount of matches: " << matchAmount << endl;
+    cout << "Amount of matches: " << allMatches.size() << endl;
+
     for (int i = 0 ; i < files.size() ; ++i) //frees memory  
 	delete [] matches[i] ;
     delete matches;  
